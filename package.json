@@ -1,0 +1,19 @@
+{
+  "name": "task_mines",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "pixi.js": "^8.11.0"
+  },
+  "devDependencies": {
+    "@pixi/devtools": "^2.0.1",
+    "vite": "^7.0.4"
+  }
+}
