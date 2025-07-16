@@ -2,8 +2,6 @@ import {
   Application,
   Graphics,
   Container,
-  Text,
-  TextStyle,
 } from "pixi.js";
 
 import { initDevtools } from "@pixi/devtools";
@@ -23,14 +21,14 @@ import { initDevtools } from "@pixi/devtools";
   app.canvas.style.zIndex = "0";
   app.canvas.style.pointerEvents = "none";
 
-  document.body.appendChild(app.canvas);
+  document.getElementById("game-container")?.appendChild(app.canvas);
 
   const scene = new Container();
   app.stage.addChild(scene);
 
   const background = new Graphics();
 
-  // ✅ Separate containers for header and footer
+  //  Separate containers for header and footer
   const headerContainer = new Container();
   const footerContainer = new Container();
 
@@ -54,7 +52,7 @@ import { initDevtools } from "@pixi/devtools";
       .fill({ color: 0x00c1ff, alpha: 0.8 })
       .stroke({ color: 0xffa500, width: 4, alpha: 1.0 });
 
-    // ✅ Header
+    // Header
     const headerHeight = 60;
     header.clear();
     header.beginFill(0x007acc, 1);
@@ -64,7 +62,7 @@ import { initDevtools } from "@pixi/devtools";
     // Position headerContainer
     headerContainer.position.set(x, y);
 
-    // ✅ Footer
+    // Footer (unchanged)
     const footerHeight = 80;
     footer.clear();
     footer.beginFill(0x005b99, 1);
@@ -77,11 +75,28 @@ import { initDevtools } from "@pixi/devtools";
 
   drawBackground();
 
-  // ✅ Add order: header/footer under background
+  // Add order: header/footer under background
   scene.addChild(headerContainer);
   scene.addChild(footerContainer);
   scene.addChild(background);
 
-  // Optional: redraw on resize
+  const htmlBtn = document.getElementById("how-to-play-btn") as HTMLButtonElement;
+
+  function positionHtmlButton() {
+    const { x, y } = headerContainer;
+    const headerHeight = 60;
+
+  htmlBtn.style.position = "absolute";
+  htmlBtn.style.left = `${x + 20}px`; // Left padding inside header
+  htmlBtn.style.top = `${y + (headerHeight - 40) / 2}px`; // Vertically center (if button is ~40px tall)
+  htmlBtn.style.zIndex = "2";
+}
+
+positionHtmlButton();
+window.addEventListener("resize", () => {
+  drawBackground();
+  positionHtmlButton();
+});
+
   window.addEventListener("resize", drawBackground);
 })();

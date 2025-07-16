@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>SPRIBE (Your Mines Clone)</title>
+  <title>SPRIBE (Mines Clone)</title>
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
   <link rel="icon" href="assets/favicon.png">
@@ -11,14 +11,15 @@
 </head>
 <body>
   <!-- Optionally include your loading screen -->
-  <div id="main-loading" class="main-loading">
-    <!-- your splash HTML here -->
-  </div>
+  <div id="main-loading" class="main-loading"></div>
 
   <!-- Where your Pixi canvas will go -->
   <div id="game-container"></div>
 
-  <!-- Load your script -->
+  <!-- Add the label with text using HTML -->
+  <div id="fun-label">Fun Mode</div>
+  <button id="how-to-play-btn">How To Play?</button>
+
   <script type="module" src="/src/main.ts"></script>
 </body>
 </html>
