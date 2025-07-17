@@ -45,3 +45,63 @@ game-container {
   align-items: center;
   justify-content: center;
 }
+#bet-btn {
+  position: absolute;
+  height: 40px;
+  padding: 0 80px;
+  font-size: 16px;
+  border-radius: 16px;
+  border: none;
+  background-color: #018f22;
+  color: white;
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  z-index: 10;
+  user-select: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  letter-spacing: 1px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+#bet-amount {
+  position: absolute;
+  height: 40px;
+  width: 120px;
+  padding: 0 12px;
+  font-size: 16px;
+  border-radius: 16px;
+  border: none;
+  background-color: rgb(39, 53, 248);
+  color: white; 
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  z-index: 10;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+#bet-amount::placeholder {
+  color: white;
+}
+#balance-label {
+  position: absolute;
+  height: 40px;
+  padding: 0 16px;
+  font-size: 16px;
+  border-radius: 16px;
+  border: none;
+  background-color: #f89501;
+  color: white;
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  z-index: 10;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 185px; /* adjust based on header */
+  right: 20px;
+}
+
+

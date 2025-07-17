@@ -7,7 +7,7 @@ export class Cell extends Graphics {
   gridY: number;
   size: number;
 
-  constructor(x: number, y: number, size: number) {
+  constructor(x: number, y: number, size: number, onReveal: () => void) {
     super();
     this.gridX = x;
     this.gridY = y;
@@ -16,12 +16,18 @@ export class Cell extends Graphics {
     this.cursor = "pointer";
     this.drawCell();
 
-    this.on("pointertap", () => this.reveal());
-  }
+    this.on("pointertap", () => {
+      if (!this.isRevealed) {
+        this.reveal();
+        onReveal();
+      }
+    });
+}
+
 
   drawCell() {
     this.clear();
-    this.beginFill(0x444444);
+    this.beginFill(0x0033cc); // a nice medium blue
     this.drawRect(0, 0, this.size, this.size);
     this.endFill();
   }

@@ -6,20 +6,18 @@
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
   <link rel="icon" href="assets/favicon.png">
-  <!-- Keep custom fonts and CSS styles -->
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <!-- Optionally include your loading screen -->
   <div id="main-loading" class="main-loading"></div>
 
-  <!-- Where your Pixi canvas will go -->
   <div id="game-container"></div>
 
-  <!-- Add the label with text using HTML -->
   <div id="fun-label">Fun Mode</div>
+  <div id="balance-label">$3000</div>
   <button id="how-to-play-btn">How To Play?</button>
-
+  <button id="bet-btn">Bet</button>
+  <input id="bet-amount" type="number" placeholder="Enter bet" />
   <script type="module" src="/src/main.ts"></script>
 </body>
 </html>
