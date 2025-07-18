@@ -59,6 +59,7 @@ handleCellReveal(cell: Cell) {
   if (cell.isMine) {
     console.log("Game Over! You hit a mine.");
     this.enableInteraction(false);
+    this.isInProgress = false;
     if (this.onGameEnd) this.onGameEnd(false);
     setTimeout(() => this.reset(), 2000);
   } else {
@@ -73,19 +74,20 @@ handleCellReveal(cell: Cell) {
     }
 
     if (this.revealedCells === this.totalSafeCells) {
-      console.log("🎉 You Win!");
+      console.log("You Win!");
       this.enableInteraction(false);
+      this.isInProgress = false;
       if (this.onWin) this.onWin(this.reward);
       if (this.onGameEnd) this.onGameEnd(true);
       setTimeout(() => this.reset(), 2000);
     }
   }
 }
-    getRewardMultiplier(): number {
-      const progress = this.revealedCells / this.totalSafeCells;
-      const rewardMultiplier = 1 + (this.mineCount );
-      return rewardMultiplier * progress;
-    }
+  getRewardMultiplier(): number {
+    const progress = this.revealedCells / this.totalSafeCells;
+    const rewardMultiplier = 1 + (this.mineCount );
+    return rewardMultiplier * progress;
+  }
 
   enableInteraction(enable : boolean) {
     for (const row of this.grid) {
@@ -103,4 +105,16 @@ handleCellReveal(cell: Cell) {
   }
   isInProgress = false;
   
+  cashOut() {
+  if (!this.isInProgress) return;
+
+  this.isInProgress = false;
+  this.enableInteraction(false);
+
+  console.log(`Cashed out with reward: $${this.reward.toFixed(2)}`);
+  if (this.onWin) this.onWin(this.reward);
+  if (this.onGameEnd) this.onGameEnd(true);
+
+  setTimeout(() => this.reset(), 1500);
+}
 }

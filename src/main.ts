@@ -84,7 +84,6 @@ import { Game } from "./game";
   const rewardBanner = document.getElementById("reward-banner") as HTMLDivElement;
   const cashoutBtn = document.getElementById("cashout-btn") as HTMLButtonElement;
 
-
   betInput.value = "1";
   mineInput.value = "3";
 
@@ -111,7 +110,7 @@ import { Game } from "./game";
 
     betInput.style.position = "absolute";
     betInput.style.left = `${x + 300}px`;
-    betInput.style.top = `${y + app.screen.height * 0.6 - footerHeight + (footerHeight - 40) / 2}px`;
+    betInput.style.top = `${y + layoutHeight - footerHeight + (footerHeight - 40) / 2}px`;
     betInput.style.zIndex = "2";
 
     balanceLabel.style.position = "absolute";
@@ -121,7 +120,7 @@ import { Game } from "./game";
 
     mineInput.style.position = "absolute";
     mineInput.style.left = `${x + 250}px`;
-    mineInput.style.top = `${y + app.screen.height * 0.6 - footerHeight + (footerHeight - 40) / 2}px`;
+    mineInput.style.top = `${y + layoutHeight - footerHeight + (footerHeight - 40) / 2}px`;
     mineInput.style.zIndex = "2";
 
     mineLabel.style.position = "absolute";
@@ -139,7 +138,6 @@ import { Game } from "./game";
     rewardBanner.style.top = `${y + (headerHeight - 40) / 2}px`;
     rewardBanner.style.zIndex = "2";
 
-    // Cash Out button
     cashoutBtn.style.position = "absolute";
     cashoutBtn.style.left = `${x + layoutWidth - 520}px`;
     cashoutBtn.style.top = `${y + layoutHeight - footerHeight + (footerHeight - 40) / 2}px`;
@@ -151,7 +149,6 @@ import { Game } from "./game";
     balanceLabel.textContent = `$${balance.toFixed(2)}`;
   }
   updateBalanceDisplay();
-
   positionHtmlElements();
 
   let currentGame: Game | null = null;
@@ -162,6 +159,8 @@ import { Game } from "./game";
 
   function startGame() {
     cashoutBtn.disabled = false;
+    cashoutBtn.classList.add("visible")
+
     const bet = parseFloat(betInput.value);
     const mineCount = parseInt(mineInput.value) || 3;
 
@@ -178,7 +177,7 @@ import { Game } from "./game";
     }
 
     currentGame = new Game(mineCount, (reward) => {
-      balance += reward;
+      balance += bet + reward;
       updateBalanceDisplay();
       alert(`You won $${reward.toFixed(2)}!`);
     }, bet);
@@ -187,12 +186,27 @@ import { Game } from "./game";
       rewardLabel.textContent = `$${reward.toFixed(2)}`;
     };
 
+    currentGame.onGameEnd = (won: boolean) => {
+      cashoutBtn.disabled = true;
+      cashoutBtn.classList.remove("visible")
+      rewardLabel.textContent = "$0.00";
+    };
+
     scene.addChild(currentGame.container);
     currentGame.enableInteraction(true);
+    currentGame.isInProgress = true;
     centerGameGrid();
   }
 
   betBtn.addEventListener("click", startGame);
+
+  cashoutBtn.addEventListener("click", () => {
+    if (currentGame && currentGame.isInProgress) {
+      currentGame.cashOut();
+      cashoutBtn.disabled = true;
+      cashoutBtn.classList.remove("visible");
+    }
+  });
 
   function centerGameGrid() {
     if (!currentGame) return;
