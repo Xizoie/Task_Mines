@@ -1,45 +1,43 @@
-import {
-  Application,
-  Graphics,
-  Container,
-} from "pixi.js";
-
+import { Application, Graphics, Container } from "pixi.js";
 import { initDevtools } from "@pixi/devtools";
 import { Game } from "./game";
 
 (async () => {
+  // Initialize the PIXI Application
   const app = new Application();
-
   await app.init({
     backgroundColor: 0x000000,
     resizeTo: window,
     antialias: true,
   });
 
+  // Enable PIXI devtools for debugging
   initDevtools({ app });
 
+  // Position canvas behind HTML elements
   app.canvas.style.position = "absolute";
   app.canvas.style.zIndex = "0";
-
   document.getElementById("game-container")?.appendChild(app.canvas);
 
+  // Main PIXI containers
   const scene = new Container();
   app.stage.addChild(scene);
 
+  // Layout elements
   const background = new Graphics();
   const headerContainer = new Container();
   const footerContainer = new Container();
   const header = new Graphics();
   const footer = new Graphics();
-
   headerContainer.addChild(header);
   footerContainer.addChild(footer);
 
+  // Initial layout dimensions
   const cornerRadius = 32;
-
   let layoutWidth = app.screen.width * 0.6;
   let layoutHeight = app.screen.height * 0.6;
 
+  // Draw layout shapes and apply styles
   const drawBackground = () => {
     layoutWidth = app.screen.width * 0.6;
     layoutHeight = app.screen.height * 0.6;
@@ -47,33 +45,32 @@ import { Game } from "./game";
     const y = (app.screen.height - layoutHeight) / 2;
 
     background.clear();
-    background
-      .roundRect(x, y, layoutWidth, layoutHeight, cornerRadius)
+    background.roundRect(x, y, layoutWidth, layoutHeight, cornerRadius)
       .fill({ color: 0x00c1ff, alpha: 0.8 })
       .stroke({ color: 0xffa500, width: 4, alpha: 1.0 });
 
+    // Header
     const headerHeight = 60;
     header.clear();
-    header.beginFill(0x007acc, 1);
-    header.drawRoundedRect(0, 0, layoutWidth, headerHeight, cornerRadius);
-    header.endFill();
+    header.fill(0x007acc, 1);
+    header.roundRect(0, 0, layoutWidth, headerHeight, cornerRadius);
+    header.fill();
     headerContainer.position.set(x, y);
 
+    // Footer
     const footerHeight = 80;
     footer.clear();
-    footer.beginFill(0x005b99, 1);
-    footer.drawRoundedRect(0, 0, layoutWidth, footerHeight, cornerRadius);
-    footer.endFill();
+    footer.fill(0x005b99, 1);
+    footer.roundRect(0, 0, layoutWidth, footerHeight, cornerRadius);
+    footer.fill();
     footerContainer.position.set(x, y + layoutHeight - footerHeight);
   };
 
   drawBackground();
+  scene.addChild(headerContainer, footerContainer, background);
 
-  scene.addChild(headerContainer);
-  scene.addChild(footerContainer);
-  scene.addChild(background);
-
-  const howToPlayBtn  = document.getElementById("how-to-play-btn") as HTMLButtonElement;
+  // === HTML ELEMENTS ===
+  const howToPlayBtn = document.getElementById("how-to-play-btn") as HTMLButtonElement;
   const howToPlayModal = document.getElementById("how-to-play-modal") as HTMLElement;
   const closeHowToPlay = document.getElementById("close-how-to-play") as HTMLElement;
   const funLabel = document.getElementById("fun-label") as HTMLDivElement;
@@ -86,83 +83,65 @@ import { Game } from "./game";
   const rewardBanner = document.getElementById("reward-banner") as HTMLDivElement;
   const cashoutBtn = document.getElementById("cashout-btn") as HTMLButtonElement;
 
+  // Default input values
   betInput.value = "1";
   mineInput.value = "3";
-  
 
+  // Positioning HTML UI relative to header/footer layout
   function positionHtmlElements() {
     const { x, y } = headerContainer;
     const headerHeight = 60;
     const footerHeight = 80;
 
-    howToPlayBtn .style.position = "absolute";
-    howToPlayBtn .style.left = `${x + 20}px`;
-    howToPlayBtn .style.top = `${y + (headerHeight - 40) / 2}px`;
-    howToPlayBtn .style.zIndex = "2";
+    const style = (el: HTMLElement, left: number, top: number) => {
+      el.style.position = "absolute";
+      el.style.left = `${left}px`;
+      el.style.top = `${top}px`;
+      el.style.zIndex = "2";
+    };
 
-    funLabel.style.position = "absolute";
-    funLabel.style.left = `${x + layoutWidth / 2}px`;
-    funLabel.style.top = `${y + (headerHeight - 40) / 2}px`;
+    style(howToPlayBtn, x + 20, y + (headerHeight - 40) / 2);
+    style(funLabel, x + layoutWidth / 2, y + (headerHeight - 40) / 2);
     funLabel.style.transform = "translateX(-50%)";
-    funLabel.style.zIndex = "2";
 
-    betBtn.style.position = "absolute";
-    betBtn.style.left = `${x + layoutWidth - 500}px`;
-    betBtn.style.top = `${y + layoutHeight - footerHeight + (footerHeight - 40) / 2}px`;
-    betBtn.style.zIndex = "2";
-
-    betInput.style.position = "absolute";
-    betInput.style.left = `${x + 300}px`;
-    betInput.style.top = `${y + layoutHeight - footerHeight + (footerHeight - 40) / 2}px`;
-    betInput.style.zIndex = "2";
-
-    balanceLabel.style.position = "absolute";
-    balanceLabel.style.left = `${x + layoutWidth - 135}px`;
-    balanceLabel.style.top = `${y + (headerHeight - 40) / 2}px`;
-    balanceLabel.style.zIndex = "2";
-
-    mineInput.style.position = "absolute";
-    mineInput.style.left = `${x + 250}px`;
-    mineInput.style.top = `${y + layoutHeight - footerHeight + (footerHeight - 40) / 2}px`;
-    mineInput.style.zIndex = "2";
-
-    mineLabel.style.position = "absolute";
-    mineLabel.style.left = `${x + 180}px`;
-    mineLabel.style.top = `${y + layoutHeight - footerHeight + (footerHeight - 40) / 2}px`;
-    mineLabel.style.zIndex = "2";
-
-    rewardLabel.style.position = "absolute";
-    rewardLabel.style.left = `${x + layoutWidth - 350}px`;
-    rewardLabel.style.top = `${y + (headerHeight - 40) / 2}px`;
-    rewardLabel.style.zIndex = "2";
-
-    rewardBanner.style.position = "absolute";
-    rewardBanner.style.left = `${x + layoutWidth - 291}px`;
-    rewardBanner.style.top = `${y + (headerHeight - 40) / 2}px`;
-    rewardBanner.style.zIndex = "2";
-
-    cashoutBtn.style.position = "absolute";
-    cashoutBtn.style.left = `${x + layoutWidth - 520}px`;
-    cashoutBtn.style.top = `${y + layoutHeight - footerHeight + (footerHeight - 40) / 2}px`;
-    cashoutBtn.style.zIndex = "2";
+    style(betBtn, x + layoutWidth - 500, y + layoutHeight - footerHeight + (footerHeight - 40) / 2);
+    style(betInput, x + 300, y + layoutHeight - footerHeight + (footerHeight - 40) / 2);
+    style(balanceLabel, x + layoutWidth - 135, y + (headerHeight - 40) / 2);
+    style(mineInput, x + 250, y + layoutHeight - footerHeight + (footerHeight - 40) / 2);
+    style(mineLabel, x + 180, y + layoutHeight - footerHeight + (footerHeight - 40) / 2);
+    style(rewardLabel, x + layoutWidth - 350, y + (headerHeight - 40) / 2);
+    style(rewardBanner, x + layoutWidth - 291, y + (headerHeight - 40) / 2);
+    style(cashoutBtn, x + layoutWidth - 520, y + layoutHeight - footerHeight + (footerHeight - 40) / 2);
   }
 
+  // Balance management
   let balance = 3000;
   function updateBalanceDisplay() {
     balanceLabel.textContent = `$${balance.toFixed(2)}`;
   }
+
   updateBalanceDisplay();
   positionHtmlElements();
 
-  let currentGame: Game | null = null;
-  currentGame = new Game(3);
+  // === GAME SETUP ===
+  let currentGame: Game | null = new Game(3);
   scene.addChild(currentGame.container);
   currentGame.enableInteraction(false);
   centerGameGrid();
 
+  // Center grid on screen
+  function centerGameGrid() {
+    if (!currentGame) return;
+    const gridWidth = currentGame.container.width;
+    const gridHeight = currentGame.container.height;
+    currentGame.container.x = (app.screen.width - gridWidth) / 2;
+    currentGame.container.y = (app.screen.height - gridHeight) / 2;
+  }
+
+  // Start game with current inputs
   function startGame() {
     cashoutBtn.disabled = false;
-    cashoutBtn.classList.add("visible")
+    cashoutBtn.classList.add("visible");
 
     const bet = parseFloat(betInput.value);
     const mineCount = parseInt(mineInput.value) || 3;
@@ -175,9 +154,7 @@ import { Game } from "./game";
     updateBalanceDisplay();
     rewardLabel.textContent = "$0.00";
 
-    if (currentGame) {
-      scene.removeChild(currentGame.container);
-    }
+    if (currentGame) scene.removeChild(currentGame.container);
 
     currentGame = new Game(mineCount, (reward) => {
       balance += bet + reward;
@@ -185,13 +162,13 @@ import { Game } from "./game";
       alert(`You won $${reward.toFixed(2)}!`);
     }, bet);
 
-    currentGame.onRewardUpdate = (reward: number) => {
+    currentGame.onRewardUpdate = (reward) => {
       rewardLabel.textContent = `$${reward.toFixed(2)}`;
     };
 
-    currentGame.onGameEnd = (won: boolean) => {
+    currentGame.onGameEnd = () => {
       cashoutBtn.disabled = true;
-      cashoutBtn.classList.remove("visible")
+      cashoutBtn.classList.remove("visible");
       rewardLabel.textContent = "$0.00";
     };
 
@@ -201,43 +178,36 @@ import { Game } from "./game";
     centerGameGrid();
   }
 
+  // === EVENT LISTENERS ===
   betBtn.addEventListener("click", startGame);
 
   cashoutBtn.addEventListener("click", () => {
-    if (currentGame && currentGame.isInProgress) {
+    if (currentGame?.isInProgress) {
       currentGame.cashOut();
       cashoutBtn.disabled = true;
       cashoutBtn.classList.remove("visible");
     }
   });
 
-  function centerGameGrid() {
-    if (!currentGame) return;
-    const gridWidth = currentGame.container.width;
-    const gridHeight = currentGame.container.height;
-    currentGame.container.x = (app.screen.width - gridWidth) / 2;
-    currentGame.container.y = (app.screen.height - gridHeight) / 2;
-  }
-
-  drawBackground();
-  centerGameGrid();
-
+  // Handle window resize
   window.addEventListener("resize", () => {
     drawBackground();
     centerGameGrid();
     positionHtmlElements();
   });
+
+  // Modal: How To Play
   howToPlayBtn.addEventListener("click", () => {
-  howToPlayModal.classList.remove("hidden");
-});
+    howToPlayModal.classList.remove("hidden");
+  });
 
-closeHowToPlay.addEventListener("click", () => {
-  howToPlayModal.classList.add("hidden");
-});
-
-window.addEventListener("click", (event) => {
-  if (event.target === howToPlayModal) {
+  closeHowToPlay.addEventListener("click", () => {
     howToPlayModal.classList.add("hidden");
-  }
-});
+  });
+
+  window.addEventListener("click", (event) => {
+    if (event.target === howToPlayModal) {
+      howToPlayModal.classList.add("hidden");
+    }
+  });
 })();

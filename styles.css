@@ -1,14 +1,15 @@
-body{
+body {
   margin: 0;
 }
+
 game-container {
-  position: relative; /* Make it a positioning context */
+  position: relative; 
 }
 
 #how-to-play-btn {
   position: absolute;
-  top: 185px; 
-  left: 410px; 
+  top: 185px;
+  left: 410px;
   height: 40px;
   padding: 0 16px;
   font-size: 16px;
@@ -21,6 +22,13 @@ game-container {
   user-select: none;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
   font-weight: bold;
+  transition: background-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+#how-to-play-btn:hover {
+  background-color: #e07b00; /* slightly darker orange */
+  box-shadow: 0 4px 12px rgba(224, 123, 0, 0.6);
+  transform: translateY(-2px);
 }
 
 #fun-label {
@@ -46,6 +54,7 @@ game-container {
   align-items: center;
   justify-content: center;
 }
+
 #bet-btn {
   position: absolute;
   height: 40px;
@@ -66,7 +75,15 @@ game-container {
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  transition: background-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
 }
+
+#bet-btn:hover {
+  background-color: #016c19; 
+  box-shadow: 0 4px 12px rgba(1, 108, 25, 0.6);
+  transform: translateY(-2px);
+}
+
 #bet-amount {
   position: absolute;
   height: 40px;
@@ -76,15 +93,17 @@ game-container {
   border-radius: 16px;
   border: none;
   background-color: rgb(39, 53, 248);
-  color: white; 
+  color: white;
   font-family: Arial, sans-serif;
   font-weight: bold;
   z-index: 10;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
+
 #bet-amount::placeholder {
   color: white;
 }
+
 #balance-label {
   position: absolute;
   height: 40px;
@@ -105,6 +124,7 @@ game-container {
   top: 185px;
   right: 20px;
 }
+
 #mine-count {
   position: absolute;
   text-align: center;
@@ -112,7 +132,7 @@ game-container {
   width: 40px;
   padding: 0 2px;
   font-size: 16px;
-  border-radius: 0 16px 16px 0; 
+  border-radius: 0 16px 16px 0;
   border: none;
   background-color: rgb(248, 149, 1);
   color: white;
@@ -121,16 +141,18 @@ game-container {
   z-index: 10;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
+
 #mine-count::placeholder {
   color: white;
 }
+
 #mine-label {
   position: absolute;
   height: 40px;
   padding: 0 8px;
   max-width: 100px;
   font-size: 16px;
-  border-radius: 16px 0 0 16px; 
+  border-radius: 16px 0 0 16px;
   border: none;
   background-color: #f89501;
   color: white;
@@ -142,6 +164,7 @@ game-container {
   align-items: center;
   justify-content: center;
 }
+
 #reward-label {
   position: absolute;
   height: 40px;
@@ -181,8 +204,9 @@ game-container {
   align-items: center;
   justify-content: center;
 }
+
 #cashout-btn {
-position: absolute;
+  position: absolute;
   height: 40px;
   padding: 0 80px;
   font-size: 16px;
@@ -201,13 +225,21 @@ position: absolute;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  transition: background-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
 }
+
+#cashout-btn:hover:not(:disabled) {
+  background-color: #e07b00; 
+  box-shadow: 0 4px 12px rgba(224, 123, 0, 0.6);
+  transform: translateY(-2px);
+}
+
 #cashout-btn:disabled {
   transition: opacity 0.2s ease;
   cursor: not-allowed;
   display: none;
 }
-/* You can put this in your main CSS file */
+
 .modal {
   position: fixed;
   top: 0;
@@ -226,13 +258,23 @@ position: absolute;
 }
 
 .modal-content {
-  background-color: white;
+  background-color: #f89501;
+  color: white; 
   padding: 20px 30px;
-  border-radius: 8px;
+  border-radius: 16px; 
   max-width: 400px;
+  width: 90%;
   text-align: left;
   position: relative;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  font-size: 16px;
+  letter-spacing: 1px;
+  user-select: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .close {
@@ -241,14 +283,12 @@ position: absolute;
   right: 10px;
   font-size: 24px;
   font-weight: bold;
-  color: #555;
+  color: white; 
   cursor: pointer;
+  user-select: none;
+  transition: color 0.2s ease;
 }
 
-
-
-
-
-
-
-
+.close:hover {
+  color: #222; 
+}

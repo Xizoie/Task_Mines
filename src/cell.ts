@@ -9,11 +9,14 @@ export class Cell extends Graphics {
 
   constructor(x: number, y: number, size: number, onReveal: () => void) {
     super();
+
     this.gridX = x;
     this.gridY = y;
     this.size = size;
+
     this.interactive = true;
     this.cursor = "pointer";
+
     this.drawCell();
 
     this.on("pointertap", () => {
@@ -22,23 +25,24 @@ export class Cell extends Graphics {
         onReveal();
       }
     });
-}
+  }
 
-
-  drawCell() {
+  // Draw default (unrevealed) cell appearance
+  private drawCell(): void {
     this.clear();
-    this.beginFill(0x0033cc); // a nice medium blue
+    this.beginFill(0x0033cc); // Medium blue
     this.drawRect(0, 0, this.size, this.size);
     this.endFill();
   }
 
-  reveal() {
+  // Reveal the cell with color based on whether it's a mine
+  reveal(): void {
     if (this.isRevealed) return;
     this.isRevealed = true;
 
     this.clear();
-    this.beginFill(this.isMine ? 0xff0000 : 0x88cc88);
-    this.drawRect(0, 0, this.size, this.size);
-    this.endFill();
+    this.fill(this.isMine ? 0xff0000 : 0x88cc88); // Red if mine, green if safe
+    this.rect(0, 0, this.size, this.size);
+    this.fill();
   }
 }
