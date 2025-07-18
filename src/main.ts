@@ -73,7 +73,9 @@ import { Game } from "./game";
   scene.addChild(footerContainer);
   scene.addChild(background);
 
-  const htmlBtn = document.getElementById("how-to-play-btn") as HTMLButtonElement;
+  const howToPlayBtn  = document.getElementById("how-to-play-btn") as HTMLButtonElement;
+  const howToPlayModal = document.getElementById("how-to-play-modal") as HTMLElement;
+  const closeHowToPlay = document.getElementById("close-how-to-play") as HTMLElement;
   const funLabel = document.getElementById("fun-label") as HTMLDivElement;
   const betBtn = document.getElementById("bet-btn") as HTMLButtonElement;
   const betInput = document.getElementById("bet-amount") as HTMLInputElement;
@@ -86,16 +88,17 @@ import { Game } from "./game";
 
   betInput.value = "1";
   mineInput.value = "3";
+  
 
   function positionHtmlElements() {
     const { x, y } = headerContainer;
     const headerHeight = 60;
     const footerHeight = 80;
 
-    htmlBtn.style.position = "absolute";
-    htmlBtn.style.left = `${x + 20}px`;
-    htmlBtn.style.top = `${y + (headerHeight - 40) / 2}px`;
-    htmlBtn.style.zIndex = "2";
+    howToPlayBtn .style.position = "absolute";
+    howToPlayBtn .style.left = `${x + 20}px`;
+    howToPlayBtn .style.top = `${y + (headerHeight - 40) / 2}px`;
+    howToPlayBtn .style.zIndex = "2";
 
     funLabel.style.position = "absolute";
     funLabel.style.left = `${x + layoutWidth / 2}px`;
@@ -224,4 +227,17 @@ import { Game } from "./game";
     centerGameGrid();
     positionHtmlElements();
   });
+  howToPlayBtn.addEventListener("click", () => {
+  howToPlayModal.classList.remove("hidden");
+});
+
+closeHowToPlay.addEventListener("click", () => {
+  howToPlayModal.classList.add("hidden");
+});
+
+window.addEventListener("click", (event) => {
+  if (event.target === howToPlayModal) {
+    howToPlayModal.classList.add("hidden");
+  }
+});
 })();
